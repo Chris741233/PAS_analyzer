@@ -38,8 +38,8 @@ const int  NB_MAGNETS =  6;                 // nb. d'aimants du disque PAS (pour
 const long COEFF_RPM = 60000 / NB_MAGNETS;  // 60000 / 6 magnets  = 10000  (1 minute=60000ms)
 
 // timer loop
-const int INTERVAL = 2000;                 // interval affichage Serial en ms, 1000 ou 2000 
-// 1000 = affichage rapide, 2000 calcul RPM plus stable
+const int INTERVAL = 2000;                 // interval affichage Serial en ms, 1000 ou 2000
+// 1000 = affichage rapide, 2000 calcul RPM plus stable et précis
 
 
 // objet statistic median (median filter)
