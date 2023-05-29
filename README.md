@@ -16,7 +16,7 @@ more informations, see
 #### Oscilloscope and Serial info (PAS 8 magnets)
 
 <p align="left">
-  <img src="./PAS_analyzer/img/oscillo_serial.jpg" width="700" title="Arduino pinouts">
+  <img src="./PAS_analyzer/img/oscillo_serial.jpg" width="800" title="Arduino pinouts">
 </p>
 
  
