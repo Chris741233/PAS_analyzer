@@ -19,4 +19,9 @@ more informations, see
   <img src="./PAS_analyzer/img/oscillo_serial.jpg" width="800" title="Arduino pinouts">
 </p>
 
+---
+#### Discussion sur le forum Cyclurba :
+[Cyclurba](https://cyclurba.fr/forum/742193/arduino-l-assistance-d-un-vae.html?discussionID=31032#msg742193)
+
+---
  
