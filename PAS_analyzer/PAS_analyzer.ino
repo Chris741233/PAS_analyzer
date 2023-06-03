@@ -50,16 +50,13 @@ RunningMedian samples_l = RunningMedian(NB_MAGNETS);
 
 // -------- GLOBAL VARIABLES ----------------------
 
-
-unsigned long previousMillis = 0;  // for timer loop
-
 unsigned int rpm      = 0;         // RPM pedalling 
 
 
 // -- var Interrupt
-volatile unsigned int pulse = 0;   // revolution count : Volatile obligatoire pour interupt si échange avec loop !
-unsigned long lastTime = 0;
+unsigned long isr_oldtime = 0;
 
+volatile unsigned int pulse = 0;   // revolution count : Volatile obligatoire pour interupt si échange avec loop 
 volatile unsigned int period_h = 0;
 volatile unsigned int period_l = 0;
 
@@ -86,7 +83,7 @@ void setup() {
 
 void loop()
 {
-    unsigned long currentMillis = millis(); // init timer 
+    static uint32_t oldtime = millis(); // static !
     
     // -- remise a zero si pas de pedalage ou RPM trop lent
     if (period_h > 800 || period_l > 800 || rpm <= 0) {
@@ -106,13 +103,13 @@ void loop()
     
     
     // -- timer  calcul et affichage Serial
-    long check_t = currentMillis - previousMillis;
+    uint32_t check_t = millis() - oldtime;
     
     if (check_t >= INTERVAL) {
         
-        calcul_rpm(check_t);  // appel fonction calcul + Serial
+        oldtime = millis();   // update timer loop    
         
-        previousMillis = currentMillis; // reset timer loop
+        calcul_rpm(check_t);  // appel fonction calcul + Serial
         
     }
     
@@ -130,33 +127,35 @@ void loop()
 void isr_pas() {
     
     // rester ici le plus concis possible !
-    long time = millis();
+    uint32_t isr_time = millis();
     
     if (digitalRead(PAS_PIN) == HIGH) {
         digitalWrite(LED_PIN, HIGH);
-        period_l = (time - lastTime);  // ms low (inverse)
+        period_l = (isr_time - isr_oldtime);  // ms low (inverse)
         
         pulse++;          // increment nb de pulse (pour calcul rpm)    
     }
     else {
         digitalWrite(LED_PIN, LOW);
-        period_h = (time - lastTime);  // ms high (inverse)
+        period_h = (isr_time - isr_oldtime);  // ms high (inverse)
     }
     
-    lastTime = time ; // reset timer interupt
+    isr_oldtime = isr_time ; // update timer interupt
     
     
 } // endfunc
 
 
-void calcul_rpm(long t)
+void calcul_rpm(uint32_t t)
 {
     
     detachInterrupt(digitalPinToInterrupt(PAS_PIN)); // (recommended)
     // https://www.arduino.cc/reference/en/language/functions/external-interrupts/detachinterrupt/
     
+    unsigned int pulse_copy = pulse; // copy of var pulse to minimize the time interrupt is off (cf Serial out)
+    
     // calcul RPM
-    rpm = (pulse * COEFF_RPM) / t;
+    rpm = (pulse_copy * COEFF_RPM) / t;
     
     int s_h = samples_h.getMedian(); // signal high in ms (filtre median)
     int s_l = samples_l.getMedian(); // signal low  in ms (filtre median)
@@ -164,18 +163,18 @@ void calcul_rpm(long t)
     int tot_periode = s_h + s_l;                                // period in ms
     float duty_high = float(s_h) / float(tot_periode) * 100;    // % duty_cycle high
     
-    
-    Serial << "timer= " << t << "ms - pulse= " << pulse << endl;
-    Serial << "RPM= " << rpm << " Periode= " << tot_periode << "ms" << endl;
-    Serial << "high= " << s_h << "ms - low= " << s_l << "ms" << endl;
-    Serial << "duty-cycle+ = " << duty_high << "%" << endl;
-    Serial << "----------------------"  << endl;
-    
-    
     pulse = 0; // reset pulse counter
     
     //interrupts();   // reactiver toutes les interruptions
     attachInterrupt(digitalPinToInterrupt(PAS_PIN), isr_pas, CHANGE);  
+    
+    
+    // -- Serial out
+    Serial << "timer= " << t << "ms - pulse= " << pulse_copy << endl;
+    Serial << "RPM= " << rpm << " Periode= " << tot_periode << "ms" << endl;
+    Serial << "high= " << s_h << "ms - low= " << s_l << "ms" << endl;
+    Serial << "duty-cycle+ = " << duty_high << "%" << endl;
+    Serial << "----------------------"  << endl;
     
 } //endfunc
 
