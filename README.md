@@ -4,8 +4,11 @@ Code pour Aduino Nano/Uno (signal +5V)
 
 more informations, see  
 - [Throttle to PAS](https://github.com/Chris741233/throttle-to-PAS)   
-- [Button to PAS (with cruise in option)](https://github.com/Chris741233/button-to-PAS)  
+- [Button to PAS (with cruise in option)](https://github.com/Chris741233/button-to-PAS) 
+- [PAS to throttle converter](https://github.com/Chris741233/PAS_to_throttle)
+
 ---
+
 #### Utilisation :
 - Indiquer le nb. d'aimants du disque (NB_MAGNETS)
 - Tourner les pédales (ou votre banc test) bien régulièrement et suffisamment de temps pour que les valeurs de l'affichage se stabilisent (quelques secondes, voir aussi constante INTERVAL).
