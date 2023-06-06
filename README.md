@@ -7,6 +7,10 @@ more informations, see
 - [Button to PAS (with cruise in option)](https://github.com/Chris741233/button-to-PAS) 
 - [PAS to throttle converter](https://github.com/Chris741233/PAS_to_throttle)
 
+**Discussion sur le forum Cyclurba**  
+[Cyclurba](https://cyclurba.fr/forum/742193/arduino-l-assistance-d-un-vae.html?discussionID=31032#msg742184)  
+[Video de Peter (Youtube)](https://www.youtube.com/watch?v=qTLahjxCKN8&t=9s)
+
 ---
 
 #### Utilisation :
@@ -26,8 +30,7 @@ more informations, see
 </p>
 
 ---
-#### Discussion sur le forum Cyclurba :
-[Cyclurba](https://cyclurba.fr/forum/742193/arduino-l-assistance-d-un-vae.html?discussionID=31032#msg742184)
 
----
+
+
  
