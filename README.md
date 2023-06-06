@@ -31,6 +31,15 @@ more informations, see
 
 ---
 
+#### Doc on ebikes.ca : 
+[Signal Types for Basic PAS Sensors](https://ebikes.ca/learn/pedal-assist.html)
+
+<p align="left">
+  <img src="./PAS_analyzer/img/PAS_Signal_Levels.jpg" width="700" title="Oscillo">
+</p>
+
+
+
 
 
  
